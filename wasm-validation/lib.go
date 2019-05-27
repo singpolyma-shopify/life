@@ -2,8 +2,8 @@ package wasm_validation
 
 import (
 	"errors"
-	"github.com/perlin-network/life/exec"
-	"github.com/perlin-network/life/platform"
+	"github.com/singpolyma-shopify/life/exec"
+	"github.com/singpolyma-shopify/life/platform"
 	"log"
 	"sync"
 )

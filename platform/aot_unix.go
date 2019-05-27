@@ -81,7 +81,7 @@ static uint64_t unsafe_invoke_function_2(struct VirtualMachine *vm, void *sym, u
 import "C"
 
 import (
-	"github.com/perlin-network/life/exec"
+	"github.com/singpolyma-shopify/life/exec"
 	"io/ioutil"
 	"log"
 	os_exec "os/exec"

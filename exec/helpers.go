@@ -4,8 +4,8 @@ import (
 	"errors"
 
 	"fmt"
-	"github.com/perlin-network/life/compiler"
-	"github.com/perlin-network/life/utils"
+	"github.com/singpolyma-shopify/life/compiler"
+	"github.com/singpolyma-shopify/life/utils"
 )
 
 var _ ImportResolver = (*NopResolver)(nil)

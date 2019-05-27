@@ -3,9 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/perlin-network/life/exec"
-	"github.com/perlin-network/life/platform"
-	"github.com/perlin-network/life/wasm-validation"
+	"github.com/singpolyma-shopify/life/exec"
+	"github.com/singpolyma-shopify/life/platform"
+	"github.com/singpolyma-shopify/life/wasm-validation"
 	"io/ioutil"
 	"strconv"
 	"time"

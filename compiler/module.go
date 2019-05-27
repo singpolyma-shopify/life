@@ -8,8 +8,8 @@ import (
 	"github.com/go-interpreter/wagon/wasm"
 	//"github.com/go-interpreter/wagon/validate"
 	"github.com/go-interpreter/wagon/wasm/leb128"
-	"github.com/perlin-network/life/compiler/opcodes"
-	"github.com/perlin-network/life/utils"
+	"github.com/singpolyma-shopify/life/compiler/opcodes"
+	"github.com/singpolyma-shopify/life/utils"
 	"strings"
 )
 

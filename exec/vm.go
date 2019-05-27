@@ -7,9 +7,9 @@ import (
 	"math/bits"
 	"runtime/debug"
 
-	"github.com/perlin-network/life/compiler"
-	"github.com/perlin-network/life/compiler/opcodes"
-	"github.com/perlin-network/life/utils"
+	"github.com/singpolyma-shopify/life/compiler"
+	"github.com/singpolyma-shopify/life/compiler/opcodes"
+	"github.com/singpolyma-shopify/life/utils"
 
 	"strings"
 

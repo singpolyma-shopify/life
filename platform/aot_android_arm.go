@@ -1,7 +1,7 @@
 package platform
 
 import (
-	"github.com/perlin-network/life/exec"
+	"github.com/singpolyma-shopify/life/exec"
 )
 
 type AOTContext struct {
