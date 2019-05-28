@@ -185,9 +185,12 @@ func (c *AOTContext) UnsafeInvokeFunction_2(vm *exec.VirtualMachine, name string
 
 func (c *AOTContext) SetupVM(vm *exec.VirtualMachine) {
 	nativeVM := C.vm_alloc()
-	C.vm_build(nativeVM, C.uintptr_t(uintptr(unsafe.Pointer(vm))), C.uint64_t(len(vm.Memory)))
+	C.vm_build(nativeVM, C.uintptr_t(uintptr(unsafe.Pointer(vm))), C.uint64_t(len(vm.Memory)), C.uint64_t(len(vm.Globals)))
 	if len(vm.Memory) > 0 {
 		C.memcpy(unsafe.Pointer(nativeVM.mem), unsafe.Pointer(&vm.Memory[0]), C.ulong(len(vm.Memory)))
+	}
+	if len(vm.Globals) > 0 {
+		C.memcpy(unsafe.Pointer(nativeVM.globals), unsafe.Pointer(&vm.Globals[0]), C.ulong(len(vm.Globals) * 8))
 	}
 
 	updateMemory(nativeVM)
@@ -244,9 +247,9 @@ func AOTCompile(vm *exec.VirtualMachine) *AOTContext {
 		dlHandle: &handle,
 	}
 
-	runtime.SetFinalizer(ctx.dlHandle, func(handle *unsafe.Pointer) {
-		C.dlclose(*handle)
-	})
+	//runtime.SetFinalizer(ctx.dlHandle, func(handle *unsafe.Pointer) {
+	//	C.dlclose(*handle)
+	//})
 
 	return ctx
 }

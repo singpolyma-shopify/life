@@ -19,6 +19,7 @@ struct VirtualMachine {
 	ExternalFunction (*resolve_import)(struct VirtualMachine *vm, const char *module_name, const char *field_name);
 	uint64_t mem_size;
 	uint8_t *mem;
+	int64_t *globals;
 	void (*grow_memory)(struct VirtualMachine *vm, uint64_t inc_size);
 	void *userdata;
 };
@@ -260,7 +261,7 @@ func (c *SSAFunctionCompiler) NGen(selfID uint64, numParams uint64, numLocals ui
 				panic("global index out of bounds")
 			}
 			bSprintf(body,
-				"%s%d.vu64 = globals[%d];",
+				"%s%d.vu64 = vm->globals[%d];",
 				NGEN_VALUE_PREFIX, ins.Target,
 				uint64(ins.Immediates[0]),
 			)
@@ -269,7 +270,7 @@ func (c *SSAFunctionCompiler) NGen(selfID uint64, numParams uint64, numLocals ui
 				panic("global index out of bounds")
 			}
 			bSprintf(body,
-				"globals[%d] = %s%d.vu64;",
+				"vm->globals[%d] = %s%d.vu64;",
 				uint64(ins.Immediates[0]),
 				NGEN_VALUE_PREFIX, ins.Values[0],
 			)

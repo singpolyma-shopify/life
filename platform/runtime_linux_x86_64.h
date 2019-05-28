@@ -161,7 +161,7 @@ static uint8_t * __x_setup_memory(struct VirtualMachine *vm) {
     vm->mem = region;
 }
 
-static void vm_build(struct VirtualMachine *vm, uintptr_t managed_vm, uint64_t mem_size) {
+static void vm_build(struct VirtualMachine *vm, uintptr_t managed_vm, uint64_t mem_size, uint64_t nglobals) {
     vm->throw_s = go_vm_throw_s;
     vm->resolve_import = go_vm_resolve_import;
     vm->mem_size = mem_size;
@@ -175,6 +175,7 @@ static void vm_build(struct VirtualMachine *vm, uintptr_t managed_vm, uint64_t m
     rt_info->current_stack_size = STACK_SIZE;
     rt_info->pending_error = NULL;
     vm->userdata = rt_info;
+    vm->globals = malloc(nglobals * sizeof(*vm->globals));
 
     __x_setup_memory(vm);
 }
@@ -185,6 +186,7 @@ static void vm_destroy(struct VirtualMachine *vm) {
     pthread_join(rt_info->mon_thread, NULL);
     close(rt_info->uffd);
     munmap(vm->mem, MMAP_SIZE);
+    free(vm->globals);
 }
 
 static __thread struct VirtualMachine *current_vm = NULL;

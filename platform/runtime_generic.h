@@ -17,17 +17,19 @@ static void __x_grow_memory(struct VirtualMachine *vm, uint64_t inc_size) {
     go_vm_post_notify_grow_memory(vm);
 }
 
-static void vm_build(struct VirtualMachine *vm, uintptr_t managed_vm, uint64_t mem_size) {
+static void vm_build(struct VirtualMachine *vm, uintptr_t managed_vm, uint64_t mem_size, uint64_t nglobals) {
     vm->throw_s = go_vm_throw_s;
     vm->resolve_import = go_vm_resolve_import;
     vm->mem_size = mem_size;
     vm->mem = malloc(mem_size);
+    vm->globals = malloc(nglobals * sizeof(*vm->globals));
     vm->grow_memory = __x_grow_memory;
     vm->userdata = (void *) managed_vm;
 }
 
 static void vm_destroy(struct VirtualMachine *vm) {
     if(vm->mem) free(vm->mem);
+    if(vm->globals) free(vm->globals);
 }
 
 static uintptr_t vm_get_managed(struct VirtualMachine *vm) {

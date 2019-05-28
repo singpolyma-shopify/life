@@ -10,6 +10,7 @@ struct VirtualMachine {
 	ExternalFunction (*resolve_import)(struct VirtualMachine *vm, const char *module_name, const char *field_name);
 	uint64_t mem_size;
 	uint8_t *mem;
+	int64_t *globals;
 	void (*grow_memory)(struct VirtualMachine *vm, uint64_t inc_size);
 	void *userdata;
 };

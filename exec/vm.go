@@ -296,12 +296,6 @@ func (vm *VirtualMachine) GenerateNEnv(config NCompileConfig) string {
 		builder.WriteString(compiler.NGEN_FP_HEADER)
 	}
 
-	bSprintf(builder, "static uint64_t globals[] = {")
-	for _, v := range vm.Globals {
-		bSprintf(builder, "%dull,", uint64(v))
-	}
-	bSprintf(builder, "};\n")
-
 	for i, code := range vm.FunctionCode {
 		bSprintf(builder, "uint64_t %s%d(struct VirtualMachine *", compiler.NGEN_FUNCTION_PREFIX, i)
 		for j := 0; j < code.NumParams; j++ {
