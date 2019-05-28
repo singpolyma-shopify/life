@@ -192,10 +192,15 @@ func (c *AOTContext) SetupVM(vm *exec.VirtualMachine) {
 
 	updateMemory(nativeVM)
 
+	runtime.SetFinalizer(c, func(ctx *AOTContext) {
+		C.vm_destroy(ctx.vmHandle)
+		C.free(unsafe.Pointer(ctx.vmHandle))
+	})
+
 	c.vmHandle = nativeVM
 }
 
-func FullAOTCompile(vm *exec.VirtualMachine) *AOTContext {
+func AOTCompile(vm *exec.VirtualMachine) *AOTContext {
 	code := vm.NCompile(exec.NCompileConfig{
 		AliasDef:             false,
 		DisableMemBoundCheck: C.need_mem_bound_check() == 0,
@@ -239,16 +244,15 @@ func FullAOTCompile(vm *exec.VirtualMachine) *AOTContext {
 		dlHandle: &handle,
 	}
 
-	ctx.SetupVM(vm)
-
 	runtime.SetFinalizer(ctx.dlHandle, func(handle *unsafe.Pointer) {
 		C.dlclose(*handle)
 	})
 
-	runtime.SetFinalizer(ctx, func(ctx *AOTContext) {
-		C.vm_destroy(ctx.vmHandle)
-		C.free(unsafe.Pointer(ctx.vmHandle))
-	})
+	return ctx
+}
 
+func FullAOTCompile(vm *exec.VirtualMachine) *AOTContext {
+	ctx := AOTCompile(vm)
+	ctx.SetupVM(vm)
 	return ctx
 }
